@@ -1,0 +1,19 @@
+.sv-timeline {
+  width: 600px;
+  height: 400px;
+  border: 1px solid gray;
+  overflow: scroll;
+  &__header {
+    width: fit-content;
+    position: sticky;
+    top: 0;
+    height: 25px;
+    border-bottom: 1px solid #D0D0D0;
+  }
+  &__row {
+    
+    height: 50px;
+    width: fit-content;
+    border-bottom: 4px double #D0D0D0;
+  }
+}
