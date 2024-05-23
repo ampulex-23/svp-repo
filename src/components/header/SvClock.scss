@@ -1,0 +1,24 @@
+.sv-clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: all .1s ease-in-out;
+  }
+  .time {
+    color: var(--sv-white-text);
+    font-size: 22px;
+    font-weight: 300;
+  }
+  .date {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--sv-grey-text);
+  }
+  .seconds {
+    color: var(--sv-grey-text);
+  }
+}

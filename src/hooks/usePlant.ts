@@ -1,15 +1,18 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {SvPlantData, SvTimelineResponse} from '../types';
 
-export const usePlant = () => {
+export const usePlant = (plantId: string) => {
   const [plant, setPlant] = useState<SvPlantData | undefined>(undefined);
   const fetchPlant = () => {
-    fetch('/res.json')
+    fetch(`/${plantId}.json`)
       .then(r => r.json())
       .then(({data}: SvTimelineResponse) => {
         setPlant(data);
       });
   };
-  !plant && fetchPlant();
+  useEffect(() => {
+    plantId && fetchPlant();
+  }, [plantId]);
+  
   return plant;
 };

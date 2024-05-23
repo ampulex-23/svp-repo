@@ -1,0 +1,19 @@
+.sv-timeline {
+  width: 100vw;
+  
+  height: auto;
+  border: none;
+  overflow: auto;
+  &__header {
+    width: fit-content;
+    position: sticky;
+    top: 0;
+    height: 70px;
+    margin-bottom: 0px;
+  }
+  &__row {
+    height: 100px;
+    overflow: hidden;
+    width: fit-content;
+  }
+}

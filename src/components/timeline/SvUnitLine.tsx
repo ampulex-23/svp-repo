@@ -1,11 +1,12 @@
 import cn from 'classnames';
-import {SvPlantData, SvUnitData} from '../types';
+import {SvPlantData, SvUnitData} from '../../types';
 import {useEffect, useRef} from 'react';
 import m, {Moment} from 'moment';
 import {COL_WIDTH} from './SvTimelineHeader';
-import { decodeSvStatus } from '../helpers/decodeSvStatus';
+import { decodeSvStatus } from '../../helpers/decodeSvStatus';
+import calculateEngineRuntime, { EngineData } from '../../helpers/calculateGPURuntime';
 
-export const ROW_HEIGHT = 50;
+export const ROW_HEIGHT = 100;
 
 export interface SvUnitLineProps {
   plant: SvPlantData;
@@ -19,18 +20,20 @@ const drawUnit = (
   unit: SvUnitData
 ): void => {
   const ndays = end.endOf('day').diff(start.startOf('day'), 'days') + 1;
-  ctx.clearRect(0, 0, ndays * COL_WIDTH * 2, ROW_HEIGHT);
+  const RH = ROW_HEIGHT * 2;
+  const CW = COL_WIDTH * 2;
+  ctx.clearRect(0, 0, ndays * CW, RH);
   for (let d = 1; d <= ndays; d++) {
-    const D = d * 2;
-    const day = start.clone().startOf('day').add(d, 'days');
+    const D = d;
+    const day = start.clone().startOf('day').add((d - 1), 'days');
     const dayIsWeekend = [0, 6].includes(day.clone().subtract(12, 'hours').day());
     const dayIsToday = day.clone().subtract(12, 'hours').isSame(m(), 'day');
     const dayIsFirst = day.clone().subtract(12, 'hours').date() === 1;
-    ctx.fillStyle = dayIsWeekend ? '#E0E0E0' : '#FFFFFF';
-    ctx.fillRect(D * COL_WIDTH - 2 * COL_WIDTH, 0, COL_WIDTH * 2, ROW_HEIGHT);
+    ctx.fillStyle = dayIsWeekend ? 'rgba(217,217,217,.4)' : '#F9F9F9';
+    ctx.fillRect(d * CW - 2 * CW, 0, CW, RH);
   }
   const nminutes = ndays * 60 * 24;
-  const width = ndays * COL_WIDTH;
+  const width = ndays * CW;
   unit.states.forEach((now, i) => {
     if (i > 0) {
       const prev = unit.states[i - 1];
@@ -39,20 +42,20 @@ const drawUnit = (
       const prevS = decodeSvStatus(prev[1]);
       const nowS = decodeSvStatus(now[1]);
       if (prevS.runing) {
-        ctx.fillStyle = '#50DE80';
-        ctx.fillRect(x, ROW_HEIGHT - ROW_HEIGHT / 2, w, 8);
+        ctx.fillStyle = '#63B55E';
+        ctx.fillRect(x, RH - RH / 2 - 19, w, 12);
       }
-      if (prevS.warning) {
-        ctx.fillStyle = '#EEEE00';
-        ctx.fillRect(x, ROW_HEIGHT - ROW_HEIGHT / 2 - 8, w, 8);
+      if (prevS.warning && prevS.runing) {
+        ctx.fillStyle = '#FFC247';
+        ctx.fillRect(x, RH - RH / 2 - 19, w, 12);
       }
-      if (prevS.alarm) {
-        ctx.fillStyle = '#EE5E00';
-        ctx.fillRect(x, ROW_HEIGHT - ROW_HEIGHT / 2 - 16, w, 8);
+      if (prevS.alarm && prevS.runing) {
+        ctx.fillStyle = '#FF8A49';
+        ctx.fillRect(x, RH - RH / 2 - 19, w, 12);
       }
       if (prevS.logging) {
-        ctx.fillStyle = '#606060';
-        ctx.fillRect(x, ROW_HEIGHT - ROW_HEIGHT / 2 + 8, w, 4);
+        ctx.fillStyle = '#CACACA';
+        ctx.fillRect(x - 1, RH - RH / 2 - 8, 2, 14);
       }
     }
   })
@@ -63,12 +66,13 @@ const SvUnitLine = ({plant, unitId}: SvUnitLineProps): JSX.Element => {
   const unit: SvUnitData = plant.units[unitId];
   const start = m(plant.dateFrom);
   const end = m(plant.dateTo);
+  
   useEffect(() => {
     const ndays = end.endOf('day').diff(start.startOf('day'), 'days') + 1;
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       canvas.width = ndays * COL_WIDTH * 2;
-      canvas.height = ROW_HEIGHT;
+      canvas.height = ROW_HEIGHT * 2;
       canvas.style.height = ROW_HEIGHT + 'px';
       canvas.style.width = ndays * COL_WIDTH + 'px';
       const ctx = canvas.getContext('2d');

@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import './SvTimeline.scss';
-import {SvPlantData} from '../types';
+import {SvPlantData} from '../../types';
 import SvTimelineHeader from './SvTimelineHeader';
 import m from 'moment';
 import SvUnitLine from './SvUnitLine';
@@ -18,7 +18,7 @@ const SvTimeline = ({plant}: SvTimelineProps): JSX.Element => {
     <div className={cn('sv-timeline')}>
       <SvTimelineHeader start={start} end={end} />
       {Object.keys(plant.units).map(unitId => (
-        <SvUnitLine unitId={unitId} plant={plant} />
+        <SvUnitLine key={unitId} unitId={unitId} plant={plant} />
       ))}
     </div>
   );

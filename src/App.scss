@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+  --sv-header-bg: #333333;
+  --sv-app-bg: #F9F9F9;
+  --sv-app-bg-dark: #333333;
+  --sv-page-bg: #D7D7D7;
+
+  --sv-card-bg: #FFFFFF;
+  --sv-card-bg-dark: #3c3c3c;
+
+  --sv-inactive-unit: #f9f9f9;
+  --sv-inactive-unit-dark: #3c3c3c;
+
+  --sv-active-unit: #FFFFFF;
+  --sv-active-unit-dark: #5e5e5e;
+
+  --sv-white-text: #FFFFFF;
+  --sv-grey-text: #CACACA;
+  --sv-dark-text: #505050;
+  --sv-warning: #FF8A49;
+  --sv-green: #63B55E;
+  --sv-red: #FF0000;
+  --sv-yellow: #EFCC00;
+  --sv-line: #18A0FB;
+  --sv-inactive-scale: #97B0C3;
+
+}
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-kerning: none;
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.sv-app {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: max-content;
+  flex-direction: column;
+  
+  main {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    overflow: hidden;
+    align-items: flex-start;
+    justify-content: flex-start;
+    aside {
+      width: auto;
+    }
+    
+  }
+}
+
+body, #root, .sv-app {
+  height: 100vh;
+}

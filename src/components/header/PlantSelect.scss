@@ -1,0 +1,17 @@
+.plant-selector {
+  display: block;
+  font-size: 16px;
+  color: var(--sv-white-text);
+  font-weight: 500;
+  line-height: 30px;
+  background-color: var(--sv-header-bg);
+  border: none;
+  height: 38px;
+  outline: none;
+  padding: 0 30px 5px;
+  width: 100%;
+  option {
+    display: block;
+    padding: 10px 0;
+  }
+}
