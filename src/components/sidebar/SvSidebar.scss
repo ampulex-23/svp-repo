@@ -1,5 +1,5 @@
 .sv-sidebar {
-  display: flex;
+  //display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -9,6 +9,27 @@
   position: relative;
   box-shadow: 0px 0 12px 0px #00000025;
   z-index: 1;
+  .mobile & {
+    position: absolute;
+    background-color: transparent;
+    padding-left: 0;
+    box-shadow: none;
+    pointer-events: none;
+    img {
+      display: none;
+    }
+    * {
+      padding-left: 0;
+      background-color: transparent;
+    }
+    .gpu-id {
+      padding-left: 10px;
+      color: #000;
+    }
+    *:not(.gpu-id) {
+      color: transparent !important;
+    }
+  }
   &__header {
     height: 70px;
     padding-left: 24px;
@@ -19,6 +40,10 @@
     align-items: center;
     gap: 14px;
     z-index: 1;
+    background-color: var(--sv-app-bg);
+    .mobile & {
+      opacity: 0;
+    }
     span {
       font-size: 22px;
       font-weight: 600;
@@ -81,6 +106,9 @@
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      .mobile & {
+        opacity: 0;
+      }
       &__gauge {
         background-color: var(--sv-green);
         height: 100%;

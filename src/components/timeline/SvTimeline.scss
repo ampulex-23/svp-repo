@@ -2,6 +2,7 @@
   width: 100vw;
   
   height: auto;
+  max-height: 100%;
   border: none;
   overflow: auto;
   &__header {
@@ -10,6 +11,7 @@
     top: 0;
     height: 70px;
     margin-bottom: 0px;
+    z-index: 7;
   }
   &__row {
     height: 100px;

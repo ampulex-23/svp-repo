@@ -6,8 +6,14 @@ import { decodeSvStatus } from '../../helpers/decodeSvStatus';
 import calculateEngineRuntime, { EngineData } from '../../helpers/calculateGPURuntime';
 
 const SvSidebar: React.FC<{
-  plant?: SvPlantData;
-}> = ({plant}) => {
+  plants: Record<string, SvPlantData>;
+  plantId?: string;
+}> = ({plants, plantId}) => {
+  const plant = Object.values(plants)[0];
+  if (Object.values(plants).filter(Boolean).length < 3) {
+    return <></>;
+  }
+  const Plants = plantId ? [plants[plantId]] : Object.values(plants);
   return (
     <aside className="sv-sidebar">
       <div className="sv-sidebar__header">
@@ -25,9 +31,9 @@ const SvSidebar: React.FC<{
           ]}
         />
       </div>
-      <div className="sv-sidebar__list">
-        {plant &&
-          Object.entries(plant.units).map(([unitId, unit]) => {
+      <div id="sidebar-list" className="sv-sidebar__list">
+        {Plants.map(p =>
+          Object.entries(p.units).map(([unitId, unit]) => {
             const lastState = unit.states.at(-1) as SvState;
             const state = decodeSvStatus(lastState[1]);
             const status = state.alarm ? 'alarm' : state.warning ? 'warning' : 'ok';
@@ -43,7 +49,7 @@ const SvSidebar: React.FC<{
                 powerPercents={100 - Math.random() * 75}
               />
             );
-          })}
+          })).flat()}
       </div>
     </aside>
   );

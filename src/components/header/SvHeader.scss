@@ -8,6 +8,9 @@
   background-color: var(--sv-header-bg);
   box-shadow: 0 4px 12px rgba(0,0,0,.2);
   z-index: 10;
+  .mobile & {
+    display: none;
+  }
   .css-13cymwt-control {
     border: none !important;
     background-color: transparent !important;

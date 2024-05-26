@@ -8,14 +8,21 @@ import TimelinePage from './pages/TimelinePage';
 import EconomyPage from './pages/EconomyPage';
 import SvSidebar from './components/sidebar/SvSidebar';
 import useSocket from './hooks/useSocket';
+import useMobileAndPortrait from './hooks/useMobileAndPortrait';
+import classNames from 'classnames';
+import { SvPlantData } from './types';
 
 function App() {
-  const [plantId, setPlantId] = useState<string>('9');
-  const plant = usePlant(plantId);
-  
+  const [plantId, setPlantId] = useState<string | undefined>(undefined);
+  const plants = {
+    '9': usePlant('9'),
+    '10': usePlant('10'),
+    '11': usePlant('11'),
+  } as Record<string, SvPlantData>;
+  const { isMobile, isPortrait } = useMobileAndPortrait();
   
   return (
-    <div className="sv-app">
+    <div className={classNames('sv-app', { 'mobile': isMobile && isPortrait })}>
       <SvHeader
         power={49367}
         heatCost={2.3}
@@ -25,11 +32,11 @@ function App() {
         onSetPlant={setPlantId}
       />
       <main>
-        <SvSidebar plant={plant} />
+        <SvSidebar plants={plants} plantId={undefined} />
 
         <Routes>
           <Route path="/service" element={<ServicePage />} />
-          <Route path="/timeline" element={<TimelinePage plant={plant} />} />
+          <Route path="/timeline" element={<TimelinePage plants={plants} plantId={undefined} />} />
           <Route path="/economy" element={<EconomyPage />} />
         </Routes>
       </main>

@@ -12,15 +12,15 @@ const useSocket = (clientuid: string) => {
 
   useEffect(() => {
     const initializeSocket = async () => {
-      const generateKey = async (): Promise<string> => {
+      /*const generateKey = async (): Promise<string> => {
         const str = new TextEncoder().encode((new Date()).toISOString().substring(0, 15)); // encode as (utf-8) Uint8Array
-        const hashBuffer = await window.crypto.subtle.digest("SHA-256", str); // hash the message
+        const hashBuffer = createHash('sha256').update(str).digest('hex');
         const hashArray = Array.from(new Uint8Array(hashBuffer)); // convert buffer to byte array
         const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join(""); // convert bytes to hex string
         return hashHex;
-      };
+      };*/
 
-      const key = await generateKey();
+      const key = 'ada8bc995cdfb9eba62690f233485915';
 
       console.log(key);
       
@@ -32,7 +32,7 @@ const useSocket = (clientuid: string) => {
         randomizationFactor: 0.5,
         query: {
           token: 123123123,
-          clientuid: 'b7df4e0b4f410b704ea173433fe8a293',
+          clientuid,
           key,
           manual: true,
         },
@@ -102,7 +102,7 @@ const useSocket = (clientuid: string) => {
     };
 
     initializeSocket();
-  }, []);
+  }, [clientuid]);
 
   return socketRef.current;
 };
